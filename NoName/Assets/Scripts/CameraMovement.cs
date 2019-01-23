@@ -25,7 +25,7 @@ public class CameraMovement : MonoBehaviour {
             DynamicFollow();
 	}
 
-    Vector3 GetLookDir(Transform _target)
+    Vector3 GetLookDir(Transform _target)//Pagal judejimo krypti randa i kuria puse turi ziuret kamera
     {
         Vector3 dir = Vector3.zero;
         dir = _target.position + _target.GetComponent<Rigidbody>().velocity;
@@ -39,7 +39,7 @@ public class CameraMovement : MonoBehaviour {
         Gizmos.color = Color.red;
         Gizmos.DrawCube(posi,Vector3.one);
     }
-    void StaticFollow()
+    void StaticFollow()//Kamera tiesiog seka masina
     {
         Quaternion quat = target.rotation;
         quat.x = 0f;

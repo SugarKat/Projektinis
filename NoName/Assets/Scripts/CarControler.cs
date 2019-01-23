@@ -30,10 +30,13 @@ public class CarControler : MonoBehaviour
     public float steeringAngle = 45f;
     public Text txtSpeed;
 
+    float currentTorque;
+
 	void Start ()
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass;
+        currentTorque = maxTorque;
 	}
 	
 	void FixedUpdate ()
@@ -49,34 +52,34 @@ public class CarControler : MonoBehaviour
 
         input = Input.GetAxis("Jump");
         HandBrake(input);
-        input = Input.GetAxisRaw("Horizontal");
+        input = Input.GetAxis("Horizontal");
+        input = Mathf.Clamp(input, -1, 1);
         Steer(input);
         ApplyDownForce();
 	}
 
     void Drive(float input)
     {
-        float torque;
         if (input < 0)
         {
-            torque = reverseTorque;
+            //currentTorque = reverseTorque;
         }
         else
-            AdjustTorque(out torque);
+            AdjustTorque();
         switch (driveWheels)
         {
             case FunctWheels.FWD:
-                wheelsCl[0].motorTorque = (input * torque)/2f;
-                wheelsCl[1].motorTorque = (input * torque)/2f;
+                wheelsCl[0].motorTorque = (input * currentTorque)/2f;
+                wheelsCl[1].motorTorque = (input * currentTorque)/2f;
                 break;
             case FunctWheels.BWD:
-                wheelsCl[2].motorTorque = (input * torque )/2;
-                wheelsCl[3].motorTorque = (input * torque)/2;
+                wheelsCl[2].motorTorque = (input * currentTorque)/2;
+                wheelsCl[3].motorTorque = (input * currentTorque)/2;
                 break;
             case FunctWheels.AWD:
                 for (int i = 0; i < 4; i++)
                 {
-                    wheelsCl[i].motorTorque = (input * torque)/4;
+                    wheelsCl[i].motorTorque = (input * currentTorque)/4;
                 }
                 break;
         }
@@ -113,10 +116,8 @@ public class CarControler : MonoBehaviour
         mesh.transform.position = pos;
         mesh.transform.rotation = quat;
     }
-    void AdjustTorque(out float _torque)
+    void AdjustTorque()
     {
-        _torque = maxTorque;
-
         WheelHit wheelHit;
 
         switch(driveWheels)
@@ -126,27 +127,44 @@ public class CarControler : MonoBehaviour
                 wheelsCl[0].GetGroundHit(out wheelHit);
                 if (wheelHit.forwardSlip >= slipLimit)
                 {
-                    _torque -= (Mathf.Pow(wheelHit.forwardSlip * 10, 2) - slipLimit) * 10 + (maxTorque/20);
+                    currentTorque -= 10;
+                }
+                else
+                {
+                    currentTorque += 10;
                 }
                 wheelsCl[1].GetGroundHit(out wheelHit);
                 if (wheelHit.forwardSlip >= slipLimit)
                 {
-                    _torque -= (Mathf.Pow(wheelHit.forwardSlip * 10, 2) - slipLimit) * 10 + (maxTorque/20);
+                    currentTorque -= 10;
                 }
-
+                else
+                {
+                    currentTorque += 10;
+                }
                 break;
             case FunctWheels.BWD:
 
                 wheelsCl[2].GetGroundHit(out wheelHit);
                 if (wheelHit.forwardSlip >= slipLimit)
                 {
-                    _torque -= (wheelHit.forwardSlip*4 - slipLimit) * 10;
+                    currentTorque -= 10;
                 }
+                else
+                {
+                    currentTorque += 10;
+                }
+
                 wheelsCl[3].GetGroundHit(out wheelHit);
                 if (wheelHit.forwardSlip >= slipLimit)
                 {
-                    _torque -= (wheelHit.forwardSlip*4 - slipLimit) * 10;
+                    currentTorque -= 10;
                 }
+                else
+                {
+                    currentTorque += 10;
+                }
+
                 break;
             case FunctWheels.AWD:
                 for (int i = 0; i < 4; i++)
@@ -154,11 +172,17 @@ public class CarControler : MonoBehaviour
                     wheelsCl[i].GetGroundHit(out wheelHit);
                     if (wheelHit.forwardSlip >= slipLimit)
                     {
-                        _torque -= (wheelHit.forwardSlip*2 - slipLimit) * 10;
+                        currentTorque -= 10;
+                    }
+                    else
+                    {
+                        currentTorque += 10;
                     }
                 }
                 break;
         }
-        Debug.Log(_torque/2);
+        if (currentTorque > maxTorque)
+            currentTorque = maxTorque;
+        Debug.Log(currentTorque);
     }
 }
