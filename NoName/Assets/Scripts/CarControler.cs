@@ -31,6 +31,7 @@ public class CarControler : MonoBehaviour
     public Text txtSpeed;
 
     float currentTorque;
+    float oldRot;
 
 	void Start ()
     {
@@ -55,6 +56,8 @@ public class CarControler : MonoBehaviour
         input = Input.GetAxis("Horizontal");
         input = Mathf.Clamp(input, -1, 1);
         Steer(input);
+        SteerHelper();
+        AdjustTorque();
         ApplyDownForce();
 	}
 
@@ -65,7 +68,6 @@ public class CarControler : MonoBehaviour
             //currentTorque = reverseTorque;
         }
         else
-            AdjustTorque();
         switch (driveWheels)
         {
             case FunctWheels.FWD:
@@ -125,64 +127,64 @@ public class CarControler : MonoBehaviour
             case FunctWheels.FWD:
 
                 wheelsCl[0].GetGroundHit(out wheelHit);
-                if (wheelHit.forwardSlip >= slipLimit)
-                {
-                    currentTorque -= 10;
-                }
-                else
-                {
-                    currentTorque += 10;
-                }
+                Torque(wheelHit.forwardSlip);
+        
                 wheelsCl[1].GetGroundHit(out wheelHit);
-                if (wheelHit.forwardSlip >= slipLimit)
-                {
-                    currentTorque -= 10;
-                }
-                else
-                {
-                    currentTorque += 10;
-                }
+                Torque(wheelHit.forwardSlip);
+
                 break;
             case FunctWheels.BWD:
 
                 wheelsCl[2].GetGroundHit(out wheelHit);
-                if (wheelHit.forwardSlip >= slipLimit)
-                {
-                    currentTorque -= 10;
-                }
-                else
-                {
-                    currentTorque += 10;
-                }
+                Torque(wheelHit.forwardSlip);
 
                 wheelsCl[3].GetGroundHit(out wheelHit);
-                if (wheelHit.forwardSlip >= slipLimit)
-                {
-                    currentTorque -= 10;
-                }
-                else
-                {
-                    currentTorque += 10;
-                }
+                Torque(wheelHit.forwardSlip);
 
                 break;
             case FunctWheels.AWD:
                 for (int i = 0; i < 4; i++)
                 {
                     wheelsCl[i].GetGroundHit(out wheelHit);
-                    if (wheelHit.forwardSlip >= slipLimit)
-                    {
-                        currentTorque -= 10;
-                    }
-                    else
-                    {
-                        currentTorque += 10;
-                    }
+                    Torque(wheelHit.forwardSlip);
                 }
                 break;
         }
-        if (currentTorque > maxTorque)
-            currentTorque = maxTorque;
         Debug.Log(currentTorque);
+        
+    }
+    private void Torque(float forwardSlip)
+    {
+        if (forwardSlip >= slipLimit && currentTorque >= 0)
+        {
+             currentTorque -= 10;
+        }
+        else
+        {
+            currentTorque += 10;
+            if (currentTorque > maxTorque)
+            {
+                currentTorque = maxTorque;
+            }
+        }
+    }
+    private void SteerHelper()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            WheelHit wheelhit;
+            wheelsCl[i].GetGroundHit(out wheelhit);
+            if (wheelhit.normal == Vector3.zero)
+                return; // wheels arent on the ground so dont realign the rigidbody velocity
+        }
+
+        // this if is needed to avoid gimbal lock problems that will make the car suddenly shift direction
+        if (Mathf.Abs(oldRot - transform.eulerAngles.y) < 10f)
+        {
+            var turnadjust = (transform.eulerAngles.y - oldRot) * .75f;
+            Quaternion velRotation = Quaternion.AngleAxis(turnadjust, Vector3.up);
+            rb.velocity = velRotation * rb.velocity;
+        }
+        oldRot = transform.eulerAngles.y;
     }
 }
