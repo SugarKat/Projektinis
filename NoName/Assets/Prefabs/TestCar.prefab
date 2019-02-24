@@ -331,8 +331,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609103228185590}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.084319346, z: -0, w: 0.99643886}
+  m_LocalPosition: {x: 1068.12, y: 99.19, z: 24.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4127022803554666}
@@ -715,15 +715,15 @@ MonoBehaviour:
   - {fileID: 146988534149437204}
   - {fileID: 146419010842153506}
   - {fileID: 146071535383212130}
-  driveWheels: 2
+  driveWheels: 1
   maxSpeedLimit: 250
   slipLimit: 0.3
   centerOfMass: {x: 0, y: 0, z: -1.15}
-  maxTorque: 6100
+  maxTorque: 7100
   reverseTorque: 650
   brakeTorque: 500
   steeringAngle: 30
-  downForce: 200
+  downForce: 250
 --- !u!114 &114670567253292582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -754,15 +754,15 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.6
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
+    m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
+    m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.75
     m_Stiffness: 1
   m_Enabled: 1
@@ -783,15 +783,15 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.6
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
+    m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
+    m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.75
     m_Stiffness: 1
   m_Enabled: 1
