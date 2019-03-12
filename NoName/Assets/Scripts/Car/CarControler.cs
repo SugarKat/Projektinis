@@ -55,7 +55,6 @@ public class CarControler : MonoBehaviour
         accel = Mathf.Clamp(accel, 0, 1);
         brake = -1*Mathf.Clamp(brake, -1, 0);
         handbrake = Mathf.Clamp(handbrake, 0, 1);
-                Debug.Log(brake);
 
         crInfo.UpdateInfo(currentTorque/maxTorque, CurrentSpeed);
 
@@ -205,7 +204,7 @@ public class CarControler : MonoBehaviour
         // this if is needed to avoid gimbal lock problems that will make the car suddenly shift direction
         if (Mathf.Abs(oldRot - transform.eulerAngles.y) < 10f)
         {
-            var turnadjust = (transform.eulerAngles.y - oldRot) * .75f;
+            var turnadjust = (transform.eulerAngles.y - oldRot) * .5f;
             Quaternion velRotation = Quaternion.AngleAxis(turnadjust, Vector3.up);
             rb.velocity = velRotation * rb.velocity;
         }

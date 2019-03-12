@@ -717,13 +717,13 @@ MonoBehaviour:
   - {fileID: 146071535383212130}
   driveWheels: 1
   maxSpeedLimit: 250
-  slipLimit: 0.3
+  slipLimit: 0.4
   centerOfMass: {x: 0, y: 0, z: -1.15}
-  maxTorque: 7100
+  maxTorque: 8100
   reverseTorque: 650
   brakeTorque: 500
   steeringAngle: 30
-  downForce: 250
+  downForce: 150
 --- !u!114 &114670567253292582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -758,13 +758,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_Stiffness: 1.5
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 0.65
   m_Enabled: 1
 --- !u!146 &146419010842153506
 WheelCollider:
@@ -787,13 +787,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_Stiffness: 1.5
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 0.65
   m_Enabled: 1
 --- !u!146 &146892570958793754
 WheelCollider:
@@ -816,13 +816,13 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_Stiffness: 1.5
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 0.65
   m_Enabled: 1
 --- !u!146 &146988534149437204
 WheelCollider:
@@ -845,11 +845,11 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_Stiffness: 1.5
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 0.65
   m_Enabled: 1
